@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const {sayHi} = require('../Controllers/user')
+const { singup } = require('../Controllers/user')
 
-router.get("/", sayHi);
+router.post("/singup", singup);
 
 module.exports = router;

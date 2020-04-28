@@ -1,5 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 //import routes
@@ -7,6 +10,12 @@ const userRoutes = require('./routes/user')
 
 //App
 const app  = express();
+
+// midlewates
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(cookieParser());
+
 
 //Routes middleware
 app.use('/api', userRoutes);
