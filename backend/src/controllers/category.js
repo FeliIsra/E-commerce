@@ -18,6 +18,21 @@ exports.read = (req, res) => {
     return res.json(req.category)
 }
 
+exports.remove = (req, res) => {
+    let category = req.category
+    category.remove((err) => {
+        if(err){
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+
+        res.json({
+            message: 'Category deleted successfully'
+        })
+    })
+}
+
 exports.categoryById = (req, res, next, id) => {
     Category.findById(id).exec((err, category) => {
         if(err || !category){

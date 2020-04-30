@@ -24,7 +24,7 @@ exports.read = (req, res) => {
 
 exports.remove = (req, res) => {
     let product = req.product
-    product.remove((err, deletedProduct) => {
+    product.remove((err) => {
         if(err){
             return res.status(400).json({
                 error: errorHandler(err)
