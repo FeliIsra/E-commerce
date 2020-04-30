@@ -18,6 +18,18 @@ exports.read = (req, res) => {
     return res.json(req.category)
 }
 
+exports.list = (req, res) => {
+    Category.find().exec((err, data) => {
+        if(err){
+            return res.status(400).json({
+                error: errorHandler(err)
+            })
+        }
+
+        res.json(data)
+    })
+}
+
 exports.remove = (req, res) => {
     let category = req.category
     category.remove((err) => {
