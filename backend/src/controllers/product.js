@@ -124,7 +124,7 @@ exports.create = (req, res) => {
             return res.json(result)
         })
     })
-};
+}
 
 exports.list = (req, res) => {
     let order = req.query.order ? req.query.order : 'asc'
@@ -143,6 +143,28 @@ exports.list = (req, res) => {
                 })
             }
 
-            res.send(products)
+            res.json(products)
+        })
+}
+
+/**
+ * It will find the products base on the req product category
+ * other products that has the same category, will be returned
+ */
+
+exports.listRelated = (req, res) => {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 6
+
+    Product.find({_id: {$ne: req.product}, category: req.product.category})
+        .limit(limit)
+        .populate('category', '_id name')
+        .exec((err, products) => {
+            if(err){
+                return res.status(400).json({
+                    error: 'Products nor found'
+                })
+            }
+
+            res.json(products)
         })
 }
