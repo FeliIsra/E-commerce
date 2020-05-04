@@ -9,8 +9,8 @@ const {
 } = require('../controllers/auth')
 const { userSignupValidator } = require('../validator')
 
-router.post("/singup", userSignupValidator, singup);
-router.post("/singin", singin);
-router.get("/singout", singout);
+router.post("/signup", userSignupValidator, singup);
+router.post("/signin", singin);
+router.get("/signout", singout);
 
 module.exports = router;
