@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Layout from "../core/Layout";
 import { Redirect } from "react-router-dom";
-import { signin } from "../auth";
+import { signin, authenticate } from "../auth";
 
 
 function Signin(){
@@ -32,10 +32,12 @@ function Signin(){
                 if(data.error){
                     setValues({...values, error: data.error, loading: false})
                 } else {
-                    setValues({
-                        ...values,
-                        redirectToReferrer: true
-                    })
+                   authenticate(data, () =>  {
+                       setValues({
+                           ...values,
+                           redirectToReferrer: true
+                       })
+                   })
                 }
             })
     }
