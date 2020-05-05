@@ -13,7 +13,7 @@ function  Routes() {
                 <Route path="/" exact component={Home}/>
                 <Route path="/signin" exact component={Signin}/>
                 <Route path="/signup" exact component={Signup}/>
-                <PrivateRoute path='/dashboard' exact component={UserDashboard}/>
+                <PrivateRoute path='/user/dashboard' exact component={UserDashboard}/>
             </Switch>
         </BrowserRouter>
     )
