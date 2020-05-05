@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from "../core/Layout";
 import {isAuthenticated} from "../auth";
 
-function UserDashboadr() {
+function dashboard() {
 
     const {user: {_id ,name, email, role}} = isAuthenticated()
 
@@ -27,4 +27,4 @@ function UserDashboadr() {
     )
 }
 
-export default UserDashboadr
+export default dashboard
