@@ -3,7 +3,7 @@ import Layout from "../core/Layout";
 import {isAuthenticated} from "../auth";
 import { Link } from "react-router-dom";
 
-function dashboard() {
+function UserDashboard() {
 
     const {user: {_id ,name, email, role}} = isAuthenticated()
 
@@ -48,7 +48,7 @@ function dashboard() {
     }
 
     return(
-        <Layout title={"Dashboard"} description={`G,Day ${name}!`} className="container-fluid">
+        <Layout title={"Dashboard"} description={`G, Day ${name}!`} className="container-fluid">
             <div className='row'>
                 <div className='col-3'>
                     {userLink()}
@@ -62,4 +62,4 @@ function dashboard() {
     )
 }
 
-export default dashboard
+export default UserDashboard
