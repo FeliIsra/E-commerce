@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
 import { Link } from "react-router-dom";
-import { createProduct } from "./apiAdmin";
+import { createProduct, getCategories } from "./apiAdmin";
 
 
 function  AddProduct() {
@@ -39,8 +39,21 @@ function  AddProduct() {
         formData
     } = values
 
+
+    // load categories and set form data
+    
+    const init = () => {
+        getCategories().then(data => {
+            if(data.error){
+                setValues({...values, error: data.error})
+            } else {
+                setValues({...values, categories: data, formData: new FormData()})
+            }
+        })
+    }
+
     useEffect(() => {
-        setValues({...values, formData: new FormData()})
+        init()
     }, [])
 
     const handleChange = name => event => {
@@ -56,22 +69,22 @@ function  AddProduct() {
         e.preventDefault()
         setValues({...values, error: '', loading: true})
         createProduct(user._id, token, formData)
-            .then(data => {
-                if(data.error){
-                    setValues({...values, error: data.error})
-                } else {
-                    setValues({
-                        ...values,
-                        name: '',
-                        description: '',
-                        photo: '',
-                        price: '',
-                        quantity: '',
-                        loading: false,
-                        createdProduct: data.name
-                    })
-                }
-            })
+        .then(data => {
+            if(data.error){
+                setValues({...values, error: data.error})
+            } else {
+                setValues({
+                    ...values,
+                    name: '',
+                    description: '',
+                    photo: '',
+                    price: '',
+                    quantity: '',
+                    loading: false,
+                    createdProduct: data.name
+                })
+            }
+        })
     }
 
     const newProductForm = () => (
@@ -95,21 +108,26 @@ function  AddProduct() {
 
             <div className="form-group">
                 <label className="text-muted">Price</label>
-                <input onChange={handleChange('price')} type="number" className="form-control" value={price} />
+                <input onChange ={handleChange('price')} type="number" className="form-control" value={price} />
             </div>
-
-             <div className="form-group">
-                 <label className={'text-muted'}>Category</label>
-                 <select onChange={handleChange('category')} className={'form-control'}>
-                    <option value="5eaab6d1cee9c04644e71557">Node</option>
-                    <option value="5eaab6d1cee9c04644e71557">PHP</option>
-                 </select>
+            
+            <div className="form-group">
+                <label className="text-muted">Category</label>
+                <select onChange={handleChange('category')} className="form-control">
+                    <option>Please select</option>
+                    {categories &&
+                        categories.map((c, i) => (
+                            <option key={i} value={c._id}>
+                                {c.name}
+                            </option>
+                        ))}
+                </select>
             </div>
 
             <div className="form-group">
                 <label className="text-muted">Shipping</label>
                 <select onChange={handleChange('shipping')} className="form-control">
-                    <option>Please select</option>
+                    <option>Please select...</option>
                     <option value="0">No</option>
                     <option value="1">Yes</option>
                 </select>
@@ -122,11 +140,33 @@ function  AddProduct() {
 
             <button className="btn btn-outline-primary">Create Product</button>
         </form>
-    );
+    )
+
+    const showError = () => (
+        <div className="alert alert-danger" style={{display: error ? '' : 'none'}}>
+            {error}
+        </div>
+    )
+
+    const showSucces = () => (
+        <div className="alert alert-info" style={{display: createdProduct ? '' : 'none'}}>
+            <h2>{`${createdProduct} is created!`}</h2>
+        </div>
+    )
+
+    const showLoading = () => (
+        loading && (<div className="alert alert-success">
+                        <h2>Loading...</h2>
+                    </div>)
+    )
+
     return (
         <Layout title={'Add a new Product'} description={`G'day ${user.name}, ready to create a new product?`}  >
             <div className={'row'}>
                 <div className={'col-md-8 offset-md-2'}>
+                    {showLoading()}
+                    {showSucces()}
+                    {showError()}
                     {newProductForm()}
                 </div>
             </div>
