@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import { createProduct } from "./apiAdmin";
 
 
-
-
 function  AddProduct() {
 
     const { user, token } = isAuthenticated()
@@ -55,60 +53,76 @@ function  AddProduct() {
     }
 
     const clickSubmit = (e) => {
-        //
+        e.preventDefault()
+        setValues({...values, error: '', loading: true})
+        createProduct(user._id, token, formData)
+            .then(data => {
+                if(data.error){
+                    setValues({...values, error: data.error})
+                } else {
+                    setValues({
+                        ...values,
+                        name: '',
+                        description: '',
+                        photo: '',
+                        price: '',
+                        quantity: '',
+                        loading: false,
+                        createdProduct: data.name
+                    })
+                }
+            })
     }
 
-    const newProductForm = () => {
-        return(
-            <form className={'mb-3'} onClick={clickSubmit}>
+    const newProductForm = () => (
+        <form className="mb-3" onSubmit={clickSubmit}>
+            <h4>Post Photo</h4>
+            <div className="form-group">
+                <label className="btn btn-secondary">
+                    <input onChange={handleChange('photo')} type="file" name="photo" accept="image/*" />
+                </label>
+            </div>
 
-                <h4>Post photo</h4>
-                <div className={'form-group'}>
-                    <label className={'btn btn-secondary'}>
-                        <input onChange={handleChange('photo')} type={'file'} name={'photo'} accept={'image/*'}/>
-                    </label>
-                </div>
+            <div className="form-group">
+                <label className="text-muted">Name</label>
+                <input onChange={handleChange('name')} type="text" className="form-control" value={name} />
+            </div>
 
-                <div className="form-group">
-                    <label className={'text-muted'}>Name</label>
-                    <input onChange={handleChange('name')} type="text" className={'form-control'} value={name}/>
-                </div>
+            <div className="form-group">
+                <label className="text-muted">Description</label>
+                <textarea onChange={handleChange('description')} className="form-control" value={description} />
+            </div>
 
-                <div className="form-group">
-                    <label className={'text-muted'}>Description</label>
-                    <textarea onChange={handleChange('description')} className={'form-control'} value={description}/>
-                </div>
+            <div className="form-group">
+                <label className="text-muted">Price</label>
+                <input onChange={handleChange('price')} type="number" className="form-control" value={price} />
+            </div>
 
-                <div className="form-group">
-                    <label className={'text-muted'}>Price</label>
-                    <input onChange={handleChange('price')} type="number" className={'form-control'} value={price}/>
-                </div>
+             <div className="form-group">
+                 <label className={'text-muted'}>Category</label>
+                 <select onChange={handleChange('category')} className={'form-control'}>
+                    <option value="5eaab6d1cee9c04644e71557">Node</option>
+                    <option value="5eaab6d1cee9c04644e71557">PHP</option>
+                 </select>
+            </div>
 
-                <div className="form-group">
-                    <label className={'text-muted'}>Category</label>
-                    <select onChange={handleChange('category')} className={'form-control'}>
-                        <option value="5eaab6d1cee9c04644e71557">Node</option>
-                    </select>
-                </div>
+            <div className="form-group">
+                <label className="text-muted">Shipping</label>
+                <select onChange={handleChange('shipping')} className="form-control">
+                    <option>Please select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
 
-                <div className="form-group">
-                    <label className={'text-muted'}>Shipping</label>
-                    <select onChange={handleChange('shipping')} className={'form-control'}>
-                        <option value="0">No</option>
-                        <option value="1">Yes</option>
-                    </select>
-                </div>
+            <div className="form-group">
+                <label className="text-muted">Quantity</label>
+                <input onChange={handleChange('quantity')} type="number" className="form-control" value={quantity} />
+            </div>
 
-                <div className="form-group">
-                    <label className={'text-muted'}>Quantity</label>
-                    <input onChange={handleChange('quantity')} type="number" className={'form-control'} value={quantity}/>
-                </div>
-
-                <button className="btn btn-outline-primary">Create product</button>
-            </form>
-        )
-    }
-
+            <button className="btn btn-outline-primary">Create Product</button>
+        </form>
+    );
     return (
         <Layout title={'Add a new Product'} description={`G'day ${user.name}, ready to create a new product?`}  >
             <div className={'row'}>
