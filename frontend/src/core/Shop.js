@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Layout from "./Layout";
 import Card from './Card'
-import { getCategories } from './apiCore'
+import { getCategories, getFilteredProducts } from './apiCore'
 import Checkbox from './Checkbox'
 import { prices } from './fixedPrices'
 import Radiobox from "./Radiobox";
@@ -16,6 +16,9 @@ function Shop() {
 	})
 	const [categories, setCategories] = useState([])
 	const [error, setError] = useState(false)
+	const [limit, setLimit] = useState(6)
+	const [skip, setSkip] = useState(0)
+	const [filteredResults, setFilteredResults] = useState([])
 
 
     const init = () => {
@@ -30,14 +33,45 @@ function Shop() {
 
     useEffect(() => {
 		init()
+		loadFilteredResult(skip, limit, myFilters.filters)
     }, [])
 
+	const loadFilteredResult = (newFilters) => {
+		// console.log(newFilters)
+		getFilteredProducts(skip, limit, newFilters)
+			.then(data => {
+				if(data.error){
+					setError(data.error)
+				} else {
+					setFilteredResults(data)
+				}
+			})
+	}
 
 	const handleFilters = (filters, filterBy) => {
 		// console.log('SHOP',filters, filterBy)
 		const newFilters = {...myFilters}
 		newFilters.filters[filterBy] = filters
+
+		if(filterBy === 'price'){
+			newFilters.filters[filterBy] = handlePrice(filters)
+		}
+
+		loadFilteredResult(myFilters.filters)
 		setMyFilters(newFilters)
+	}
+
+	const handlePrice = value => {
+		const data = prices
+		let array = []
+
+		for(let key in data) {
+			if(data[key]._id === parseInt(value)){
+				array = data[key].array
+			}
+		}
+
+		return array
 	}
 
 	return(
@@ -65,7 +99,7 @@ function Shop() {
 					</div>
 				</div>
 				<div className="col-8">
-					{JSON.stringify(myFilters)}
+					{JSON.stringify(filteredResults)}
 				</div>
 			</div>
 		</Layout>
