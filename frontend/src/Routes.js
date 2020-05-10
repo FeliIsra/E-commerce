@@ -9,6 +9,7 @@ import UserDashboard from "./user/UserDashboard";
 import AdminDashboard from "./user/AdminDashboard";
 import AddCategory from "./admin/AddCategory";
 import AddProduct from "./admin/AddProduct";
+import Shop from './core/Shop'
 
 function  Routes() {
     return (
@@ -17,6 +18,7 @@ function  Routes() {
                 <Route path="/" exact component={Home}/>
                 <Route path="/signin" exact component={Signin}/>
                 <Route path="/signup" exact component={Signup}/>
+                <Route path='/shop' exact component={Shop}/>
                 <PrivateRoute path='/user/dashboard' exact component={UserDashboard}/>
                 <AdminRoutes path='/admin/dashboard' exact component={AdminDashboard}/>
                 <AdminRoutes path='/create/category' exact component={AddCategory}/>
