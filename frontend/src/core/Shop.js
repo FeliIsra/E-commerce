@@ -43,7 +43,7 @@ function Shop() {
 				if(data.error){
 					setError(data.error)
 				} else {
-					setFilteredResults(data)
+					setFilteredResults(data.data)
 				}
 			})
 	}
@@ -99,7 +99,12 @@ function Shop() {
 					</div>
 				</div>
 				<div className="col-8">
-					{JSON.stringify(filteredResults)}
+					<h2 className="mb-4">Products</h2>
+					<div className="row">
+						{filteredResults.map((p, i) => (
+							<Card key={i} product={p} />
+						))}
+					</div>
 				</div>
 			</div>
 		</Layout>
