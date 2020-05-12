@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Layout from "./Layout";
 import { getProducts } from './apiCore'
 import Card from './Card'
+import Search from "./Search";
 
 function Home(){
 
@@ -42,6 +43,7 @@ function Home(){
         	description='Node React E-commerce App' 
         	className='container-fluid'
         >
+            <Search />
 			<h2 className='mb-4'>New arrival</h2>
 			<div className="row">
 				{productsByArrival.map((p,i) => (
