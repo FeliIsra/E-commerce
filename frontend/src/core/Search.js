@@ -57,7 +57,7 @@ const Search = () => {
                 <div className="input-group input-group-lg">
                     <div className="input-group-prepend">
                         <select className={'btn mr-2'} onChange={handleChange('category')}>
-                            <option value="ALL">Pick category</option>
+                            <option value="ALL">All</option>
                             {categories.map((c, i) => (
                                 <option key={i} value={c._id}>
                                     {c.name}
@@ -81,11 +81,26 @@ const Search = () => {
         </form>
     )
 
+    const searchMessage = (searched, resuslts) => {
+        if(searched && resuslts.length > 0){
+            return `Found ${ resuslts.length } products`
+        }
+
+        if(searched && resuslts.length < 1){
+            return `No products found`
+        }
+    }
+
     const searchedProducts = (results = []) => (
-        <div className={'row'}>
-            {results.map((product, i) => (
-                <Card product={product} key={i} />
-            ))}
+        <div>
+            <h2 className={'mt-4 mb-4'}>
+                {searchMessage(searched, results)}
+            </h2>
+            <div className={'row'}>
+                {results.map((product, i) => (
+                    <Card product={product} key={i} />
+                ))}
+            </div>
         </div>
     )
 
