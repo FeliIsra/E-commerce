@@ -47,7 +47,9 @@ function Home(){
 			<h2 className='mb-4'>New arrival</h2>
 			<div className="row">
 				{productsByArrival.map((p,i) => (
-					<Card key={i} product={p} />
+                    <div key={i} className="col-4 mb-3">
+                        <Card  product={p} />
+                    </div>
 				))}
 			</div>
 
@@ -55,7 +57,9 @@ function Home(){
 			<h2 className='mb-4'>Best sellers</h2>
 			<div className="row">
 				{productsBySell.map((p,i) => (
-					<Card key={i} product={p} />
+                    <div key={i} className="col-4 mb-3">
+                        <Card  product={p} />
+                    </div>
 				))}
 			</div>
         </Layout>

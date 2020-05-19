@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from './Layout'
 import { read } from './apiCore'
+import Card from "./Card";
 
 
 function Product(props){
@@ -25,13 +26,16 @@ function Product(props){
 
 	return(
 		<Layout
-			title = "Product Page"
-			description = "This is de product page"
+			title = {product && product.name}
+			description = {product && product.description &&  product.description.substring(0,100)}
 			className = "container-fluid"
 		>
-			<h2 className="mb-4">Single Product</h2>
 			<div className="row">
-				{JSON.stringify(product)}
+				{
+					product &&
+					product.description &&
+					<Card product={product}	showViewProductButton={false}/>
+				}
 			</div>
 		</Layout>		
 	)
