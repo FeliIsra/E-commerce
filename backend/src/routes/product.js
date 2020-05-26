@@ -5,7 +5,7 @@ const { create, productById, read, remove, update, list, listRelated, listCatego
 const {requireSingin, isAuth, isAdmin } =  require('../controllers/auth')
 const { userById } = require('../controllers/user')
 
-router.get('/product/:productId', read)
+router.get("/product/:productId", read);
 router.post('/product/create/:userId', requireSingin, isAuth, isAdmin, create)
 router.delete('/product/:productId/:userId', requireSingin, isAuth, isAdmin, remove)
 router.put('/product/:productId/:userId', requireSingin, isAuth, isAdmin, update)

@@ -6,17 +6,19 @@ const { errorHandler } = require('../helpers/dbErrorHandler')
 
 //Middlewares
 exports.productById = (req, res, next, id) => {
-    Product.findById(id).exec((err, product) => {
-        if(err || !product){
-            return res.status(400).json({
-                error: "Product not found"
-            })
-        }
+    Product.findById(id)
+        .populate("category")
+        .exec((err, product) => {
+            if (err || !product) {
+                return res.status(400).json({
+                    error: 'Product not found'
+                });
+            }
+            req.product = product;
+            next();
+        });
+};
 
-        req.product = product
-        next()
-    })
-}
 
 exports.photo = (req, res, next) => {
     if(req.product.photo.data){
@@ -27,11 +29,12 @@ exports.photo = (req, res, next) => {
 }
 
 
-//Methods
+// Methods
+
 exports.read = (req, res) => {
-    req.product.photo = undefined
-    return res.json(req.product)
-}
+    req.product.photo = undefined;
+    return res.json(req.product);
+};
 
 exports.remove = (req, res) => {
     let product = req.product
