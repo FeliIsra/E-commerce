@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 const Cart = () => {
     const [items, setItems] = useState([])
 
-
     useEffect(() => {
         setItems(getCart())    
     }, [])
@@ -19,7 +18,12 @@ const Cart = () => {
             <div>
                 <h2>Your cart has {`${items.length}`} items</h2>
                 <hr/>
-                {items.map((product, index) => (<Card key={index} product={product} showAddToCartButton={false} />))}
+                {items.map((product, index) => (<Card 
+                                                    key={index} 
+                                                    product={product} 
+                                                    showAddToCartButton={false} 
+                                                />))
+                }
             </div>
         )
     }
