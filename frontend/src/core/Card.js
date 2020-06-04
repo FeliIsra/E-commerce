@@ -99,10 +99,11 @@ const Card = ({
 
 			<button 
 				onClick={ () => {
-				removeItem(product._id);
-				setRun(!run); // run useEffect in parent Cart
+					removeItem(product._id);
+					setRun(!run); // run useEffect in parent Cart
 			  	}} 
-			  	className="btn btn-danger mt-2 mb-2">
+			  	className="btn btn-danger mt-2 mb-2"
+			>
 					Remove product
 			</button>
 		)	
