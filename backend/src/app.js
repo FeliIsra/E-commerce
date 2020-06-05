@@ -44,8 +44,7 @@ mongoose.connect(
                 useNewUrlParser: true,
                 useCreateIndex: true,
                 useUnifiedTopology: true
-            }
-).then(() => console.log('DB connected'));
+    }).then(() => console.log('DB connected'));
 
 mongoose.connection.on('error', err => {
     console.log(`DB connection error: ${err.message}`)
